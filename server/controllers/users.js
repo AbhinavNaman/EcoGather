@@ -62,3 +62,5 @@ const authUser = asyncHandler(async (req, res) => {
   }
   throw new AppError('Password is invalid', 401);
 });
+
+module.exports = { registerUser, authUser }

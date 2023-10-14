@@ -15,11 +15,17 @@ const userSchema = new mongoose.Schema(
         trim: true,
         required: true
     },
-    
+
     password: {
       type: String,
       required: true,
     },
+    events: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "eventPost"
+        }
+    ]
   },
   { timestamps: true }
 );

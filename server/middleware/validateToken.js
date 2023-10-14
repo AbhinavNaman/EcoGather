@@ -1,22 +1,18 @@
-const errorHandler = (error, req, res, next) => {
-    error.message = error.message || 'Internal server error';
-    error.statusCode = error.statusCode || 500;
-  
-    if (error.name === 'MongoServerError') {
-      switch (error.code) {
-        case 11000: {
-          error.message = 'Duplicate key Error';
-          error.statusCode = 409;
-        }
-        default: {
-          error.message = 'MongoDB server error';
-          error.statusCode = 500;
-        }
-      }
+const jwt = require('jsonwebtoken');
+
+const validateToken = async (req, res, next) => {
+  const header = req.headers.authorization;
+  const token = header.split(' ')[1];
+
+  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: 'Invalid token' });
     }
-  
-    res.status(error.statusCode).json({ success: false, message: error.message });
-  };
-  
-  module.exports = errorHandler;
-  
+
+    const userId = decoded.id;
+    req.user = userId;
+    next();
+  });
+};
+
+module.exports = validateToken;
