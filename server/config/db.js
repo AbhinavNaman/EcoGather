@@ -1,8 +1,12 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const dbStart = async url => {
-  await mongoose.connect(url);
-  console.log('Connected to database');
+  try {
+    await mongoose.connect(url);
+    console.log('Connected to the database');
+  } catch (error) {
+    console.error('Error connecting to the database:', error);
+  }
 };
 
-module.exports = dbStart;
+export default dbStart;
