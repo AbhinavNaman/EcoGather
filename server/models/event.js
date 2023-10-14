@@ -4,18 +4,21 @@ const eventSchema = mongoose.Schema({
     title: String,
     date: String,
     time: String,
-    name: String,
-    creator: String,
+
+    creator: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    },
+
     location: String,
-    tagline:String,
-    vac: Number,
-    participant: [
+    tagline: String,
+    vacancy: Number,
+    participants: [
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"User"
         }
     ],
-    selectedFile: String,
     createdAt: {
         type: Date,
         default: new Date(),
