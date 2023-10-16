@@ -7,8 +7,6 @@ import User from '../models/User.js';
 
 const router = express.Router();
 
-//  deleteParticipant----->>>> not done >>>> approved by Aditya Agarwal
-
 
 export const getPrevPosts = async (req, res) =>{
     const {userId} = req.user;
@@ -77,6 +75,44 @@ export const finishPost = async (req, res) => {
     }
 
 }
+export const deleteParticipant = async (req, res) => {
+    const { userId } = req.body;
+    const { eventId } = req.params;
+
+    try {
+        // Find the user by their ID
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Find the event by its ID and populate the 'participants' field
+        const event = await eventPost.findById(eventId).populate('participants');
+
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        // Find the index of the user's ID in the 'participants' array
+        const participantIndex = event.participants.findIndex(participant => participant._id == userId);
+
+        if (participantIndex !== -1) {
+            // Remove the user's reference from the 'participants' array
+            event.participants.splice(participantIndex, 1);
+            
+            // Save the event to persist the changes
+            await event.save();
+            
+            return res.status(200).json({ message: 'Participant removed' });
+        } else {
+            return res.status(404).json({ message: 'Participant not found in the event' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 
 
 
