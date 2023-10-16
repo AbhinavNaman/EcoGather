@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userSchema');
+const eventPost = require("../models/event ")
 const asyncHandler = require('express-async-handler');
 const AppError = require('../config/AppError');
 
@@ -63,4 +64,55 @@ const authUser = asyncHandler(async (req, res) => {
   throw new AppError('Password is invalid', 401);
 });
 
-module.exports = { registerUser, authUser }
+const eventRegistration = async (req, res) => {
+  
+    const { userId } = req.body;
+    const { eventId } = req.params;
+
+    try {
+        // Find the user by their ID
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        user.events.push(eventId);
+
+        await user.save()
+
+        // Find the event by its ID and populate the 'participants' field
+        const event = await eventPost.findById(eventId);
+
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+        
+        event.participants.push(userId)
+
+        await event.save();
+
+        res.status(200).json({msg: "Success"})
+        
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const favouriteHandler = async(req, res) => {
+  try {
+    const userId = req.user;
+    const eventId = req.body;
+    const user = await User.findById(userId);
+
+    user.favourites.push(eventId);
+    await user.save();
+
+    res.json({msg: "Added to favourites"})
+
+  } catch (error) {
+    res.json({msg: "Unsuccessfull"})
+  }
+}
+
+module.exports = { registerUser, authUser, eventRegistration }

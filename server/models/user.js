@@ -21,11 +21,18 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     events: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "eventPost"
-        }
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "eventPost"
+      }
+    ],
+    favourites: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "eventPost"
+      }
     ]
+
   },
   { timestamps: true }
 );
