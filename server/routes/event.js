@@ -1,15 +1,15 @@
 import express from 'express';
 
-import {createPost, getPosts, getPost, getCurrentPost, finishPost, deleteParticipant} from '../controllers/posts.js';
+import {createPost, getPrevPosts, getPost, getCurrentPost, finishPost, deleteParticipant} from '../controllers/event.js';
 
 const router = express.Router();
-// import auth from "../middleware/auth.js";
+import validateToken from "../middleware/validateToken.js";
 
-router.get('/', getPosts);
-router.get('/:id', getPost);
+router.get('/',validateToken, getPrevPosts);
 router.get('/:id', getCurrentPost);
-router.post('/', auth,  createPost);
-router.delete('/:id', auth, finishPost);
+router.get('/:id', getPost);
+router.post('/', validateToken,  createPost);
+router.delete('/:id', validateToken, finishPost);
 router.post('/', deleteParticipant);
 
 export default router;
