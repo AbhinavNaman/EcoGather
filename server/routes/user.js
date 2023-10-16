@@ -5,6 +5,8 @@ const router = express.Router();
 const {
   registerUser,
   authUser,
+  eventRegistration,
+  favouriteHandler,
 } = require('../controllers/users');
 
 router.route('/register').post(registerUser);

@@ -4,11 +4,13 @@ const router = express.Router();
 
 const {
   getPost,
-  getPosts
+  getPosts,
+  getFavPosts
 } = require('../controllers/posts');
 
 
 router.route("/post/:id").get(validateToken, getPost)
 router.route("/posts").get(validateToken, getPosts)
+router.route("/favPosts").get(validateToken, getFavPosts)
 
 module.exports = router;

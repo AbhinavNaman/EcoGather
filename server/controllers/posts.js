@@ -1,4 +1,5 @@
 const eventPost = require("../models/event")
+const User = require("../models/users.js")
 
 const getPost = async (req, res) => {
     const id = req.params;
@@ -20,4 +21,16 @@ const getPosts = async (req, res) => {
     res.json({msg: "Error fetching posts"})
 }
 
-module.exports = {getPost, getPosts}
+const getFavPosts = async (req, res) => {
+    const {userId} = req.user;
+    const posts = await User.find({_id: userId});
+    const favPost = posts.favourites.populate();
+
+    if(favPost) {
+        return res.json(favPost)
+    }
+    res.json({msg: "Error fetching posts"})
+}
+
+
+module.exports = {getPost, getPosts, getFavPosts}
