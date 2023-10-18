@@ -1,11 +1,12 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/userSchema');
-const eventPost = require("../models/event ")
-const asyncHandler = require('express-async-handler');
-const AppError = require('../config/AppError');
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../models/user.js';
+import eventPost from '../models/event.js';
+import asyncHandler from 'express-async-handler';
+import AppError from '../config/AppError.js';
 
-const registerUser = asyncHandler(async (req, res) => {
+
+export const registerUser = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
 
   const salt = await bcrypt.genSalt(10);
@@ -37,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
   throw new AppError({ msg: 'Some error occured' });
 });
 
-const authUser = asyncHandler(async (req, res) => {
+export const authUser = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
 
@@ -64,7 +65,7 @@ const authUser = asyncHandler(async (req, res) => {
   throw new AppError('Password is invalid', 401);
 });
 
-const eventRegistration = async (req, res) => {
+export const eventRegistration = async (req, res) => {
   
     const { userId } = req.body;
     const { eventId } = req.params;
@@ -99,7 +100,7 @@ const eventRegistration = async (req, res) => {
     }
 }
 
-const favouriteHandler = async(req, res) => {
+export const favouriteHandler = async(req, res) => {
   try {
     const userId = req.user;
     const eventId = req.body;
@@ -114,5 +115,3 @@ const favouriteHandler = async(req, res) => {
     res.json({msg: "Unsuccessfull"})
   }
 }
-
-module.exports = { registerUser, authUser, eventRegistration }

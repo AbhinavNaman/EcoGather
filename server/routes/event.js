@@ -2,8 +2,8 @@ import express from 'express';
 
 import {createPost, getPrevPosts, getPost, getCurrentPost, finishPost, deleteParticipant} from '../controllers/event.js';
 
-const router = express.Router();
 import validateToken from "../middleware/validateToken.js";
+const router = express.Router();
 
 router.get('/',validateToken, getPrevPosts);
 router.get('/:id', getCurrentPost);

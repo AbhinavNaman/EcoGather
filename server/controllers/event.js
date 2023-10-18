@@ -1,8 +1,6 @@
 import express from 'express';
-import mongoose from 'mongoose';
-
-import eventPost from '../models/eventPost.js';
-import User from '../models/User.js';
+import eventPost from '../models/event.js';
+import User from '../models/user.js';
 
 
 const router = express.Router();
@@ -114,9 +112,5 @@ export const deleteParticipant = async (req, res) => {
 }
 
 
-
-
-
-export default router;
   
 

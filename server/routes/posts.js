@@ -1,16 +1,14 @@
-const express = require('express');
-const validateToken = require("../middleware/validateToken")
+import express from 'express';
+import validateToken from "../middleware/validateToken.js";
 const router = express.Router();
 
-const {
-  getPost,
+import { getPost,
   getPosts,
-  getFavPosts
-} = require('../controllers/posts');
+  getFavPosts} from '../controllers/posts.js'
 
 
 router.route("/post/:id").get(validateToken, getPost)
 router.route("/posts").get(validateToken, getPosts)
 router.route("/favPosts").get(validateToken, getFavPosts)
 
-module.exports = router;
+export default router;

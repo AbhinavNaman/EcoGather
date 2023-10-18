@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken'
 
 const validateToken = async (req, res, next) => {
   const header = req.headers.authorization;
@@ -15,4 +15,4 @@ const validateToken = async (req, res, next) => {
   });
 };
 
-module.exports = validateToken;
+export default validateToken;
