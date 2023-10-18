@@ -7,13 +7,13 @@ import AppError from '../config/AppError.js';
 
 
 export const registerUser = asyncHandler(async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ email });
 
-  if (!username || !password) {
+  if (!email || !password) {
     throw new AppError('Fill the required fields', 400);
   }
 
@@ -21,13 +21,13 @@ export const registerUser = asyncHandler(async (req, res) => {
     throw new AppError('User Exists', 400);
   }
 
-  const newUser = await User.create({ username, password: hash });
+  const newUser = await User.create({ email, password: hash });
 
   const payload = {
     id: newUser._id,
   };
 
-  const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '24h' });
+  const token = jwt.sign(payload, "processenvsecrete", { expiresIn: '24h' });
 
   if (newUser) {
     console.log(token);
@@ -39,10 +39,10 @@ export const registerUser = asyncHandler(async (req, res) => {
 });
 
 export const authUser = asyncHandler(async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username });
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
 
-  if (!username || !password) {
+  if (!email || !password) {
     throw new AppError('Fill the required fields', 400);
   }
 

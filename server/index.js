@@ -34,4 +34,4 @@ app.listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`)
 })
 
-dbStart(process.env.CONNECTION_URL)
+dbStart("mongodb+srv://memories_sm:memories_sm@memories-sm.hl8zgow.mongodb.net/EcoGather")
