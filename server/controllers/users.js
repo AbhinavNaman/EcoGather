@@ -54,7 +54,7 @@ export const authUser = asyncHandler(async (req, res) => {
     id: user._id,
   };
 
-  const token = jwt.sign(payload, process.env.SECRET, { expiresIn: '24h' });
+  const token = jwt.sign(payload, "processenvsecrete", { expiresIn: '24h' });
   const isMatch = await bcrypt.compare(password, user.password);
   if (isMatch) {
     console.log(token);
