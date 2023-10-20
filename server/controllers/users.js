@@ -7,10 +7,7 @@ import AppError from '../config/AppError.js';
 import nodemailer from 'nodemailer'
 
 export const registerUser = asyncHandler(async (req, res) => {
-  // const { email, password } = req.body;
-  let email = "hanzalah.w@gmail.com"
-  let password = "fkasldfk"
-
+  const { email, password } = req.body;
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
   const user = await User.findOne({ email });
