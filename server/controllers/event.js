@@ -23,7 +23,7 @@ export const getCurrentPost = async (req, res) => {
 
     try {
         const currentPosts = await eventPost.find({creator: userId, completed:false});
-        res.status(200).json(currentPosts);
+        res.status(200).json({currentPosts:currentPosts});
 
     } catch (error) {
         res.status(404).json({ message: error.message });
