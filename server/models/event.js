@@ -23,6 +23,11 @@ const eventSchema = mongoose.Schema({
         type: Date,
         default: new Date(),
     },
+
+    completed: {
+        type: Boolean,
+        default:false
+    }
 })
 
 var eventPost = mongoose.model('eventPost', eventSchema);

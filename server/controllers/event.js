@@ -7,12 +7,10 @@ const router = express.Router();
 
 
 export const getPrevPosts = async (req, res) =>{
-    const {userId} = req.user;
-    // console.log(page);
+    const {userId} = req.body;
     try {
-        const user = await User.findById(userId);
-        const prevEvents = user.populate("events");
-        res.status(200).json(prevEvents);
+        const prevPosts = await eventPost.find({creator: userId});
+        res.status(200).json(prevPosts);
         
     } catch (error) {
         res.status(400).json({error: error.message});
@@ -21,13 +19,11 @@ export const getPrevPosts = async (req, res) =>{
 
 
 export const getCurrentPost = async (req, res) => { 
-    const {userId} = req.user;
+    const {userId} = req.body;
 
     try {
-        const user = await User.findById(userId);
-        const prevEvents = user.populate("events");
-        const requiredEvent = prevEvents.filter({completed:false});
-        res.status(200).json(requiredEvent);
+        const currentPosts = await eventPost.find({creator: userId, completed:false});
+        res.status(200).json(currentPosts);
 
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -35,14 +31,11 @@ export const getCurrentPost = async (req, res) => {
 }
 
 export const getPost = async (req, res) => { 
-    const {userId} = req.user;
-    const { eventId } = req.params;
+    const {eventId} = req.body;
 
     try {
-        const user = await User.findById(userId);
-        const prevEvents = user.populate("events");
-        const requiredEvent = prevEvents.filter({_id: eventId});
-        res.status(200).json(requiredEvent);
+        const requiredPosts = await eventPost.find({_id: eventId});
+        res.status(200).json(requiredPosts);
 
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -61,10 +54,10 @@ export const createPost = async (req, res) =>{
 }
 
 export const finishPost = async (req, res) => {
-    const { eventId } = req.params;
+    const { eventId } = req.body;
 
     try {
-        const updatedPost = await eventPost.findByIdAndUpdate(eventId,{completed:true},{new:true});
+        const updatedPost = await eventPost.findByIdAndUpdate({_id:eventId},{completed:true},{new:true});
         res.status(200).json(updatedPost);
 
     } catch (error) {
