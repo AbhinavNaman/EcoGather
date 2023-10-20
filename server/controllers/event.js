@@ -51,8 +51,7 @@ export const getPost = async (req, res) => {
 
 export const createPost = async (req, res) =>{
     const post = req.body;
-    const {userId} = req.user;
-    const newPost = new eventPost({...post, creator: userId, createdAt: new Date().toISOString()});
+    const newPost = new eventPost({...post, createdAt: new Date().toISOString()});
     try {
         await newPost.save();
         res.status(201).json(newPost);
