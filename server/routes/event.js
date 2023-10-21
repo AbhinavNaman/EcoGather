@@ -8,7 +8,7 @@ router.get('/leaderboard', leaderBoard);
 router.post('/getcurrentpost', getCurrentPost);
 router.post('/getpost', getPost);
 router.post('/createpost', createPost);
-router.delete('/finish', finishPost);
+router.post('/finish', finishPost);
 router.post('/deletepost', deleteParticipant);
 
 export default router;
