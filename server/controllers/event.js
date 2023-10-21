@@ -2,10 +2,6 @@ import express from 'express';
 import eventPost from '../models/event.js';
 import User from '../models/user.js';
 
-
-const router = express.Router();
-
-
 export const getPrevPosts = async (req, res) =>{
     const {userId} = req.body;
     try {
