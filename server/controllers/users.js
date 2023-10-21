@@ -91,8 +91,7 @@ export const authUser = asyncHandler(async (req, res) => {
 
 export const eventRegistration = async (req, res) => {
 
-  const { userId } = req.body;
-  const { eventId } = req.params;
+  const { userId, eventId } = req.body;
 
   try {
     // Find the user by their ID
