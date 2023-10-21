@@ -9,7 +9,7 @@ const router = express.Router();
 export const getPrevPosts = async (req, res) =>{
     const {userId} = req.body;
     try {
-        const prevPosts = await eventPost.find({creator: userId});
+        const prevPosts = await eventPost.find({creator: userId, completed:false});
         res.status(200).json(prevPosts);
         
     } catch (error) {
