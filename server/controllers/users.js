@@ -32,20 +32,20 @@ export const registerUser = asyncHandler(async (req, res) => {
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "seismic924@gmail.com",
-      pass: "qbvc cjkt dsbb ydvn",
+      user: process.env.NODEMAILER_USER,
+      pass: process.env.NODEMAILER_PASS,
     },
   });
 
   async function main() {
     const info = await transporter.sendMail({
-      from: 'seismic924@gmail.com',
+      from: process.env.NODEMAILER_USER,
       to: email,
       subject: "Ecogather Registration",
       text: "Welcome to Ecogather! Your Registration was successful!",
       html: "<b>Welcome to Ecogather! Your Registration was Successful!<br>Get ready to meet and greet Eco-Enthusiasts like yourself!</br>",
     });
-    console.log("Message sent: %s", info.messageId);
+    console.log("Registration message sent: %s", info.messageId);
   }
 
   main().catch(console.error);
@@ -115,6 +115,34 @@ export const eventRegistration = async (req, res) => {
     await event.save();
 
     res.status(200).json({ msg: "Success" })
+
+    // send participation mail
+    const userEmail = user.email;
+    const eventTitle = event.title;
+    const eventDate = event.date;
+    const eventTime = event.time;
+    const eventLocation = event.location;
+
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.NODEMAILER_USER,
+        pass: process.env.NODEMAILER_PASS,
+      },
+    });
+
+    async function main() {
+      const info = await transporter.sendMail({
+        from: process.env.NODEMAILER_USER,
+        to: userEmail,
+        subject: `Ecogather Meet: ${eventTitle}`,
+        text: `Welcome to Ecogather! Your Participation request was successful!`,
+        html: `<b>Hey There! Show up to ${eventTitle} at ${eventTime} on ${eventDate}.<br>Location: ${eventLocation}</br>`,
+      });
+      console.log("Participation message sent: %s", info.messageId);
+    }
+
+    main().catch(console.error);
 
   } catch (error) {
     res.status(500).json({ message: error.message });
