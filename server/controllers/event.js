@@ -1,16 +1,26 @@
-import express from 'express';
 import eventPost from '../models/event.js';
 import User from '../models/user.js';
 
-
-const router = express.Router();
+export const leaderBoard = async (req, res) => {
+    try {
+      const users = await User.find().sort({ noOfCertificate: -1 }).exec();
+  
+      if (users) {
+        res.status(200).json({ users });
+      }
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).json({ error: error.message }); // You may want to send an error response here.
+    }
+  }
+  
 
 
 export const getPrevPosts = async (req, res) =>{
     const {userId} = req.body;
     try {
         const prevPosts = await eventPost.find({creator: userId, completed:false});
-        res.status(200).json(prevPosts);
+        res.status(200).json({prevPosts:prevPosts});
         
     } catch (error) {
         res.status(400).json({error: error.message});
