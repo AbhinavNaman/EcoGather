@@ -4,7 +4,7 @@ import User from "../models/user.js";
 export const getPost = async (req, res) => {
 
 
-    const {id} = req.params;
+    const {_id} = req.body;
     
     const post = await eventPost.findById(id)
 
