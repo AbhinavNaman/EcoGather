@@ -9,7 +9,7 @@ export const leaderBoard = async (req, res) => {
         const users = await User.find().sort({ noOfCertificate: -1 }).exec();
 
         if (users) {
-            res.status(200).json({ users });
+            res.status(200).json({ users: users });
         }
     } catch (error) {
         console.log(error.message);
@@ -20,7 +20,7 @@ export const leaderBoard = async (req, res) => {
 export const getPrevPosts = async (req, res) => {
     const { userId } = req.body;
     try {
-        const prevPosts = await eventPost.find({ creator: userId, completed: false });
+        const prevPosts = await eventPost.find({ creator: userId, completed: true });
         res.status(200).json({ prevPosts: prevPosts });
 
     } catch (error) {
