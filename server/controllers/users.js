@@ -88,18 +88,6 @@ export const authUser = asyncHandler(async (req, res) => {
   throw new AppError('Password is invalid', 401);
 });
 
-export const leaderBoard = async (req, res) => {
-  User.find().sort({ noOfCertificate: -1 }).exec((err, results) => {
-    if (err) {
-      console.error(err);
-      // Handle the error
-    } else {
-      return res
-      .status(200)
-      .json({ leaderBoard: results });
-    }
-})
-}
 
 export const eventRegistration = async (req, res) => {
 
