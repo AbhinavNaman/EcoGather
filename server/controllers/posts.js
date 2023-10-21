@@ -23,12 +23,25 @@ export const getPosts = async (req, res) => {
 }
 
 export const getFavPosts = async (req, res) => {
-    const {userId} = req.user;
-    const posts = await User.find({_id: userId});
-    const favPost = posts.favourites.populate();
 
-    if(favPost) {
-        return res.json(favPost)
+    const { userId } = req.body;
+    const posts = await User.find({ _id: userId });
+    
+
+    const user = await User.findOne({ _id: userId }).populate('favourites');
+
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
     }
-    res.json({msg: "Error fetching posts"})
+
+    const favPost = user.favourites;
+
+    if (favPost) {
+      return res.json(favPost);
+    } else {
+    
+      res.status(404).json({ msg: "No favorite posts found" });
+    }
+
 }
