@@ -2,7 +2,8 @@ import eventPost from "../models/event.js";
 import User from "../models/user.js";
 
 export const getPost = async (req, res) => {
-    const id = req.params;
+
+    const {id} = req.params;
     const post = await eventPost.findById(id)
 
     if(post) {
