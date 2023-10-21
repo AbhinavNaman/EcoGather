@@ -8,6 +8,8 @@ import nodemailer from 'nodemailer'
 
 export const registerUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+  console.log(email);
+  console.log(password);
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
   const user = await User.findOne({ email });
