@@ -79,18 +79,10 @@ export const finishPost = async (req, res) => {
                 size: "A4",
             });
 
-            // The name
-            // const certificateInput = name;
-            // Draw the certificate image
-            // doc.image("images/certificate.png", 0, 0, { width: 842 });
-            // Set the font to Dancing Script
-            // doc.font("fonts/DancingScript-VariableFont_wght.ttf");
-            // Draw the name
             doc.fontSize(60).text(name, 20, 265, {
                 align: "center"
             });
 
-            // Save the PDF to a file
             const filePath = `${name}.pdf`;
             doc.pipe(fs.createWriteStream(filePath));
             doc.end();
@@ -99,7 +91,7 @@ export const finishPost = async (req, res) => {
         }
 
         function sendEmailWithAttachment(filePath, name, email) {
-            const sender = nodemailer.createTransport({
+            const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
                     user: process.env.NODEMAILER_USER,
@@ -107,7 +99,6 @@ export const finishPost = async (req, res) => {
                 },
             });
 
-            // Define the email options
             const mailOptions = {
                 from: process.env.NODEMAILER_USER,
                 to: email,
@@ -122,8 +113,7 @@ export const finishPost = async (req, res) => {
                 ],
             };
 
-            // Send the email
-            sender.sendMail(mailOptions, (error, info) => {
+            transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
                     console.log('Error occurred while sending email:', error);
                 } else {
@@ -133,14 +123,22 @@ export const finishPost = async (req, res) => {
         }
 
         const userEmails = users.map(user => user.email);
-        userEmails.map((email) => {
+        userEmails.map(async (email) => {
             generatePDF(sendEmailWithAttachment, email, email);
-        })
 
+            const user = await User.findOne({ email: email });
+            if (!user) {
+                console.log("User not found");
+                return;
+            }
+            user.noOfCertificate += 1;
+            await user.save();
+            console.log("User's noOfCertificate updated successfully");
+        })
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
-
+    // increase user no of certificates
 }
 
 export const deleteParticipant = async (req, res) => {
