@@ -9,6 +9,6 @@ router.post('/getcurrentpost', getCurrentPost);
 router.post('/getpost', getPost);
 router.post('/createpost', createPost);
 router.post('/finish', finishPost);
-router.post('/deletepost', deleteParticipant);
+router.post('/deleteparticipant', deleteParticipant);
 
 export default router;
