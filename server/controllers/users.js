@@ -96,6 +96,7 @@ export const leaderBoard = async (req, res) => {
       .status(200)
       .json({ leaderBoard: results });
     }
+})
 }
 
 export const eventRegistration = async (req, res) => {
