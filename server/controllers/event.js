@@ -41,16 +41,24 @@ export const getCurrentPost = async (req, res) => {
 }
 
 export const getPost = async (req, res) => {
-    const { eventId } = req.body;
+  const { eventId } = req.body;
 
-    try {
-        const requiredPosts = await eventPost.find({ _id: eventId });
-        res.status(200).json(requiredPosts);
+  try {
+    const requiredPosts = await eventPost
+      .findById(eventId)
+      .populate('participants')
+      .exec();
 
-    } catch (error) {
-        res.status(404).json({ message: error.message });
+    if (!requiredPosts) {
+      return res.status(404).json({ message: 'Event not found' });
     }
+
+    res.status(200).json(requiredPosts);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 }
+
 
 export const createPost = async (req, res) => {
     const post = req.body;
