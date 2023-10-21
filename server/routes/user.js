@@ -13,6 +13,6 @@ import  {
 router.route('/register').post(registerUser);
 router.route('/login').post(authUser);
 router.route("/eventRegister/:eventId").post(eventRegistration);
-router.route('/favourite').post(validateToken, favouriteHandler);
+router.route('/favourite').post(favouriteHandler);
 router.route('/leaderboard').get(leaderBoard);
 export default router;
