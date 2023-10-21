@@ -7,7 +7,7 @@ import { getPost,
   getFavPosts} from '../controllers/posts.js'
 
 
-router.route("/post/:id").get(getPost)
+router.route("/post").get(getPost)
 router.route("/posts").get(getPosts)
 router.route("/favPosts").get(getFavPosts)
 
