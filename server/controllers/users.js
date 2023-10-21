@@ -88,7 +88,6 @@ export const authUser = asyncHandler(async (req, res) => {
   throw new AppError('Password is invalid', 401);
 });
 
-<<<<<<< HEAD
 export const leaderBoard = async (req, res) => {
   User.find().sort({ noOfCertificate: -1 }).exec((err, results) => {
     if (err) {
@@ -101,9 +100,6 @@ export const leaderBoard = async (req, res) => {
     }
 })
 }
-=======
-
->>>>>>> 1684b56 (leaderboard done)
 
 export const eventRegistration = async (req, res) => {
 

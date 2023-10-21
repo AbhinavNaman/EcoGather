@@ -2,12 +2,10 @@ import eventPost from "../models/event.js";
 import User from "../models/user.js";
 
 export const getPost = async (req, res) => {
-<<<<<<< HEAD
+
 
     const {id} = req.params;
-=======
-    const {id} = req.body;
->>>>>>> 1684b56 (leaderboard done)
+    
     const post = await eventPost.findById(id)
 
     if(post) {
