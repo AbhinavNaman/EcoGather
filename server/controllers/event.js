@@ -134,6 +134,7 @@ export const finishPost = async (req, res) => {
         userEmails.map(async (email) => {
             generatePDF(sendEmailWithAttachment, email, email);
 
+            //increase certificate count
             const user = await User.findOne({ email: email });
             if (!user) {
                 console.log("User not found");
@@ -146,7 +147,6 @@ export const finishPost = async (req, res) => {
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
-    // increase user no of certificates
 }
 
 export const deleteParticipant = async (req, res) => {
